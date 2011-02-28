@@ -1,1 +1,10 @@
-This is my portable .emacs setup.
+This is my portable .emacs setup, I find it magical.
+
+To support a lot of the shift-key combinations I run emacs through an alias like:
+
+alias emacs='TERM=xterm-vt220 emacs -nw'
+
+and I use a keymap file with SecureCRT available in .emacs.d/misc/SecureCRT.key
+
+
+
