@@ -37,21 +37,3 @@
 ;;
 
 (require `max-modes)
-
-
-;;
-;; Make TAB + arrow keys move from window to window.
-;;
-
-;;(windmove-default-keybindings 'tab)
-
-;;
-;; PC select mode on.
-;;
-;; Add custom keybindings to allow for shift+pageup and pagedown.
-;; see max-generic.el for keymap info.
-;;
-
-(require 'pc-select)
-(global-set-key (kbd "M-[ 5 $") 'scroll-down-mark)
-(global-set-key (kbd "M-[ 6 $") 'scroll-up-mark)

@@ -118,6 +118,21 @@
 (add-hook 'shell-mode-hook (lambda ()
                              (ansi-color-for-comint-mode-on)))
 
+;;
+;; PC select mode on.
+;;
+;; Add custom keybindings to allow for shift+pageup and pagedown.
+;; see max-generic.el for keymap info.
+;;
+;; Also add C-x g for goto line which I can never remember.
+;;
+
+(require 'pc-select)
+
+(global-set-key (kbd "M-[ 5 $") 'scroll-down-mark)
+(global-set-key (kbd "M-[ 6 $") 'scroll-up-mark)
+(global-set-key (kbd "C-x g") 'goto-line)
+
 
 
 ;;
@@ -126,7 +141,5 @@
 ;;
 
 ;;(windmove-default-keybindings 'tab)
-
-
 
 (provide 'max-generic)
