@@ -114,7 +114,14 @@
 (require 'smart-tab)
 (setq smart-tab-using-hippie-expand t)
 
+;;
+;; delsel.el
+;;
+;; Allows the deletion of selected area/region when the mark is active with the DEL key.
+;; Also allows overwriting of content while the mark is active.
+;;
 
+(delete-selection-mode 1)
+(require 'delsel)
 
 (provide 'max-modes)
-
