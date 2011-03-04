@@ -43,80 +43,89 @@
 ;; and is also required to make drag-stuff mode work.
 ;;
 
+;;;;;
 ;;
-;; Whitspace and tabs
+;; Emacs training wheels :)
 ;;
 
-;; Indent/offset is two spaces
+;;
+;; Don't allow accidental `M-~' to mark buffer as unmodified.
+;;
 
-(setq c-basic-indent 2)
-(setq c-basic-offset 2)
+(put 'not-modified 'disabled t)
 
-;; Tabs are four spaces
+;;
+;; Turn off upcase-region and downcase-region with C-x C-u and C-x C-l
+;;
 
-(setq tab-width 4)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
 
-;; Never use tab characters.
+;;
+;; Turn off erase-buffer.
+;;
 
-(setq-default indent-tabs-mode nil)
+(put 'erase-buffer 'disabled nil)
+
+;;
+;; Turn off dired's buffer replacement.
+;;
+
+(put 'dired-find-alternate-file 'disabled nil)
+
+
+;;;;;
+;;
+;; Auto-save and backup options.
+;;
+;; I like backup files, and while it adds a lot of clutter, they're easy to clean up.
+;;
+
+(setq make-backup-files t)
+(setq auto-save-default t)
+
+;; Even on version controlled files
+
+(setq vc-make-backup-files t)
+
+;; Copy symlinks instead of breaking them.
+
+(setq backup-by-copying t)
+
+;;
+;; save all backups in ~/.emacs.d/backups you can change this by file type/path etc.
+;;
+;; e.g. (setq backup-directory-alist '(("\\.conf$" . "~/.emacs.d/backups/config_files")))
+;;
+
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+
+;; Automatically clean up old backups
+
+(setq delete-old-versions t)
+
+;; How many backups to keep before we clean up.
+
+(setq kept-new-versions 6)
+
+;; How many to clean up.
+
+(setq kept-old-versions 2)
+
+;; Use numbered backup files to keep track of what "version" a file is.
+
+(setq version-control t)
+
+
+;;;;;
+;;
+;;
+;; Misc options.
+;;
 
 ;; Use "y or n" answers instead of full words "yes or no"
 
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; Turn on visual bell (and prevent the audible bell)
-
-(setq visible-bell t)
-
-;; Highlight regions and add special behaviors to regions.
-;; "C-h d transient" for more info (is this default now?)
-
-(setq transient-mark-mode t)
-
-;; Display line and column numbers
-
-(setq line-number-mode    t)
-(setq column-number-mode  t)
-
-;; Word-wrap at 120.
-
-(set-default 'fill-column 120)
-
-;;
-;; Convert all line endings to Unix automatically.
-;;
-;; This will turn all mac/windows line endings into line feeds, then set the buffer as modified.
-;;
-
-
-(add-hook 'find-file-hook 'find-file-check-line-endings)
-
-(defun dos-file-endings-p ()
-  (string-match "dos" (symbol-name buffer-file-coding-system)))
-
-(defun mac-file-endings-p ()
-  (string-match "mac" (symbol-name buffer-file-coding-system)))
-
-
-(defun find-file-check-line-endings ()
-  (when (dos-file-endings-p)
-    (set-buffer-file-coding-system 'utf-8-unix)
-    (set-buffer-modified-p nil))
-  (when (mac-file-endings-p)
-    (set-buffer-file-coding-system 'utf-8-unix)
-    (set-buffer-modified-p nil))
-
-  ;; To auto save as well:
-  ;; (set-buffer-file-coding-system 'utf-8-unix)(save-buffer)
-)
-
-
-;;
-;; Enable color! (for older emacs)
-;;
-
-(add-hook 'shell-mode-hook (lambda ()
-                             (ansi-color-for-comint-mode-on)))
 
 ;;
 ;; PC select mode on.
@@ -133,13 +142,117 @@
 (global-set-key (kbd "M-[ 6 $") 'scroll-up-mark)
 (global-set-key (kbd "C-x g") 'goto-line)
 
-
-
 ;;
 ;; Make TAB + arrow keys move from window to window.
 ;; (disabled due to conflicts)
 ;;
 
 ;;(windmove-default-keybindings 'tab)
+
+
+;;
+;; Don't insert instructions in the *scratch* buffer
+;;
+
+(setq initial-scratch-message nil)
+
+
+;; Make C-h a act as C-u C-h a
+
+(setq apropos-do-all t)
+
+;; For C-u C-x v d. Probably a good idea for everything else too
+
+(setq completion-ignore-case t)
+
+;; Ask me whether to add a final newline to files which don't have one
+
+(setq require-final-newline 'ask)
+
+;; Send deletions to the Trash folder - Emacs 23.2
+
+(setq delete-by-moving-to-trash t)
+
+
+;;;;;
+;;
+;; recentf - a list of recent files
+;;
+;;
+
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key (kbd "C-x C-r") 'recentf-open-files)
+
+
+;;;;;;
+;;
+;;  User info
+;;
+
+(setq user-full-name "max goldberg")
+(setq user-mail-address "max@ytmnd.com")
+
+;; Used in ChangeLog entries
+
+(setq add-log-mailing-address "max@ytmnd.com")
+
+;;
+;; When selecting a file to visit, // will mean / and ~ will mean $HOME regardless of preceding text.
+;;
+
+(setq file-name-shadow-tty-properties '(invisible t))
+(file-name-shadow-mode 1)
+
+
+;;
+;; Spell check comments in programming modes :)
+;;
+
+(dolist (mode-hook '(c-mode-hook
+                     perl-mode-hook
+                     emacs-lisp-mode-hook
+                     php-mode-hook
+                     conf-mode-hook
+                     html-mode-hook))
+  (add-hook mode-hook 'flyspell-prog-mode))
+
+;;
+;; Spell check everything in other modes
+;;
+
+(dolist (mode-hook '(html-mode-mode-hook))
+  (add-hook mode-hook 'flyspell-mode))
+
+;;
+;; Shell out, instead of suspend.
+;;
+;; I found this obnoxious.
+;;
+
+;(global-set-key (kbd "C-z") 'shell)
+
+
+;; don't add lines when scrolling at the end of a buffer (dont think this is needed in newer versions)
+
+(setq next-line-add-newlines nil)
+
+;; Change the default behaivor of emacs23 default split to be like emacs22.
+(setq split-width-threshold nil)
+(setq-default split-width-threshold most-positive-fixnum)
+
+;;
+;;;; Minibuffer options.
+;;
+
+;; Minibuffer history length
+
+(setq history-length 250)
+
+;; Minibuffer completion mode
+
+(icomplete-mode 99)
+
 
 (provide 'max-generic)

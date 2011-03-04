@@ -29,10 +29,8 @@
 ;;
 ;;
 
-(autoload 'php-mode "php" nil t)
-(autoload 'php-lint "php-lint-mode" nil t)
-(autoload 'php-lint-mode "php-lint-mode" nil t)
-
+(autoload 'php-mode "php-mode" "Major mode for editing PHP code." t)
+(autoload 'php-lint-mode "php-lint-mode" "Force a PHP lint-check before saving." nil t)
 (add-hook 'php-mode-user-hook 'turn-on-font-lock)
 
 (defvar php-lint-bin "/usr/bin/php" "The php binary used to check for lint.")
@@ -46,7 +44,8 @@
 ;;
 
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.html$" . php-mode))
+(add-to-list 'auto-mode-alist '(".*templates.*\\.html$" . php-mode))
+
 
 ;;
 ;; drag-stuff.el
@@ -65,7 +64,7 @@
 ;; Doesn't use font-faces by default so it may be a bit wonky.
 ;;
 
-(autoload 'js2-mode "js2" nil t)
+(autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (setq js2-basic-offset 2)
@@ -99,7 +98,7 @@
 ;; Apache config mode,
 ;;
 
-(autoload 'apache-mode "apache-mode" "autoloaded" t)
+(autoload 'apache-mode "apache-mode" "Apache major mode for apache-style config files." t)
 (add-to-list 'auto-mode-alist '("\\.htaccess$"   . apache-mode))
 (add-to-list 'auto-mode-alist '("httpd\\.conf$"  . apache-mode))
 (add-to-list 'auto-mode-alist '("srm\\.conf$"    . apache-mode))
@@ -121,7 +120,80 @@
 ;; Also allows overwriting of content while the mark is active.
 ;;
 
-(delete-selection-mode 1)
 (require 'delsel)
+(delete-selection-mode 1)
+
+
+;;
+;; rainbow-mode.el
+;;
+;; minor mode to make css colors in css mode show up as their actual color value.
+;; mostly for novelty.
+;;
+
+
+(autoload 'rainbow-turn-on "rainbow-mode" nil t)
+
+;;
+;; Auto load rainbow minor mode in css/html/php
+;;
+
+(eval-after-load "php-mode" '(add-hook 'php-mode-hook 'rainbow-turn-on))
+(eval-after-load "html-mode" '(add-hook 'html-mode-hook 'rainbow-turn-on))
+(eval-after-load "css-mode" '(add-hook 'css-mode-hook 'rainbow-turn-on))
+
+
+;;
+;; undo-tree.el
+;;
+;; Adds an undo tree in a separate buffer similar to e text editor.
+;;
+
+(require 'undo-tree)
+
+(global-undo-tree-mode)
+
+
+;;
+;; scss-mode.el
+;;
+;; Sass scss mode which auto-compiles on save.
+;;
+;;
+;;(autoload 'scss-mode "scss-mode")
+;;(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+;;
+;;
+;; removed for now, I hate ruby.
+;;
+
+;;
+;; Make scss files use css mode.
+;;
+
+(add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
+
+
+;;
+;; markdown-mode.el
+;;
+;; Major mode for editing Markdown files (used a lot by github).
+;;
+
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
+(setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
+
+;;
+;; browse-kill-ring.el
+;;
+;; allows you to browse your kill ring
+
+(autoload 'browse-kill-ring "browse-kill-ring" nil t)
+(global-set-key (kbd "C-c k") 'browse-kill-ring)
+
 
 (provide 'max-modes)
+
+
+
