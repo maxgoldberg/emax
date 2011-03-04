@@ -35,5 +35,10 @@
 
 (global-font-lock-mode t)
 
+;;
+;; emacs23 sets the minibuffer color to be dark blue (on black) by default. it's hard to see.
+;;
+
+(set-face-foreground 'minibuffer-prompt "white")
 
 (provide 'max-visual)

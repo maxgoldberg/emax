@@ -64,7 +64,7 @@
 ;;
 ;; more minor mode automatics
 ;;
-;; auto-byte-compile.
+;; auto-byte-compile all *.el.
 ;;
 ;; Look into better VCS options: http://www.delorie.com/gnu/docs/emacs/emacs_127.html
 ;;
