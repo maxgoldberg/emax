@@ -64,5 +64,21 @@
 )
 
 
+;;
+;; Some nifty functions I wrote to clean up files with shittons of whitespace.
+;;
+
+(global-set-key (kbd "C-x ,") 'scrub-all)
+
+(defun scrub-trailing-whitespace () "remove trailing whitespace" (interactive)
+  (replace-regexp "[ ]+\n" "\n"))
+
+(defun scrub-tabs () "replace tabs within entire file" (interactive)
+  (untabify (point-min) (point-max)))
+
+(defun scrub-all () "replace tabs and remove trailing whitespace" (interactive)
+  (scrub-trailing-whitespace)
+  (scrub-tabs))
+
 
 (provide 'max-whitespace)

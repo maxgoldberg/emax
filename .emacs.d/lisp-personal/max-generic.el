@@ -254,5 +254,8 @@
 
 (icomplete-mode 99)
 
+(defun trailing-whitespace () "remove trailing whitespace" (interactive)
+  (replace-regexp "[ ]+\n" "\n"))
+
 
 (provide 'max-generic)
