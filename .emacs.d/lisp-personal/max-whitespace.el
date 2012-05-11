@@ -23,6 +23,8 @@
 
 (setq-default c-basic-indent 2)
 (setq-default c-basic-offset 2)
+(setq-default sh-basic-indent 2)
+(setq-default sh-basic-offset 2)
 (setq-default css-indent-offset 2)
 
 ;; Tabs are four spaces
