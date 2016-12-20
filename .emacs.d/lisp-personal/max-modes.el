@@ -32,6 +32,7 @@
 (autoload 'php-mode "php-mode" "Major mode for editing PHP code." t)
 (autoload 'php-lint-mode "php-lint-mode" "Force a PHP lint-check before saving." nil t)
 (add-hook 'php-mode-user-hook 'turn-on-font-lock)
+(autoload 'git-link "git-link" "Github Linking" t)
 
 (defvar php-lint-bin "/usr/bin/php" "The php binary used to check for lint.")
 
@@ -56,30 +57,6 @@
 (require 'drag-stuff)
 (drag-stuff-global-mode t)
 (setq drag-stuff-modifier 'escape)
-
-;;
-;; js2-mode.el
-;;
-;; JavaScript major mode.
-;; Doesn't use font-faces by default so it may be a bit wonky.
-;;
-
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-(setq js2-basic-offset 2)
-(setq js2-use-font-lock-faces t)
-
-;;
-;; as3-mode.el
-;;
-;; Actionscript major mode
-;;
-
-(autoload 'as3-mode "as3" nil t)
-(add-to-list 'auto-mode-alist '("\\.as3$" . as3-mode))
-
-
 
 ;;
 ;; python-mode.el
@@ -193,7 +170,30 @@
 (global-set-key (kbd "C-c k") 'browse-kill-ring)
 
 
+;;
+;; Puppet mode
+;;
+
+(autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
+(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+
+;;
+;; CSV mode
+;;
+
+(add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+ (autoload 'csv-mode "csv-mode"
+   "Major mode for editing comma-separated value files." t)
+
+;;
+;; YAML mode
+;;
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
 (provide 'max-modes)
+
 
 
 

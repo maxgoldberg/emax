@@ -8,7 +8,7 @@
 ;;;; Load paths
 ;;
 
-(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+;(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
 ;;
 ;;;; Third party lisp
@@ -75,3 +75,25 @@
   "Show the outline-mode structure of ~/.emacs"
   (interactive)
   (occur "^;;;;+"))
+
+
+;;
+;; Melpa!
+;;
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
+
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+
+(package-initialize)
+
+
+(require 'web-mode)
+(require 'less-css-mode)
